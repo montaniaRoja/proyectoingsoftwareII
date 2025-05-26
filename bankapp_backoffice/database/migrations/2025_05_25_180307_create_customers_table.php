@@ -19,7 +19,7 @@ return new class extends Migration
             $table->string('telefono');
             $table->string('direccion');
             $table->unsignedInteger('creado_por');
-            $table->string('keyword');
+            $table->string('keyword')->nullable();
             $table->timestamps();
             $table->foreign('creado_por')->references('id')->on('users');
         });

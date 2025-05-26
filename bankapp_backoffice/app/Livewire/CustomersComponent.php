@@ -14,6 +14,13 @@ class CustomersComponent extends Component
     use WithPagination;
     public $search = '';
     public $perPage = 10;
+    public $customerId='';
+    public $noIdentidad='';
+    public $nombreCliente='';
+    public $correo='';
+    public $direccion='';
+    public $telefono='';
+
 
     protected $paginationTheme = 'bootstrap';
     protected $queryString = ['search', 'perPage'];
@@ -35,7 +42,7 @@ class CustomersComponent extends Component
             $customers = Customer::where('nombre', 'like', '%' . $this->search . '%')
                 ->orWhere('no_doc', 'like', '%' . $this->search . '%')
                 ->orWhere('correo', 'like', '%' . $this->search . '%')
-                ->orderBy('id', 'asc')
+                ->orderBy('id', 'desc')
                 ->paginate($this->perPage);
             //->withQueryString()
 
@@ -53,11 +60,47 @@ class CustomersComponent extends Component
         return view('livewire.customers-component', ['customers' => $customers]);
     }
 
-    public function createCustomer(){
+    public function getCustomerData(){
         $this->dispatch('show-customer-modal');
     }
 
     public function closeModal(){
         $this->dispatch('hide-customer-modal');
+    }
+
+    public function store(){
+            try {
+            $validatedData = $this->validate([
+                'noIdentidad' => 'required',
+                'nombreCliente' => 'required',
+                'correo'=>'required',
+                'direccion'=>'required',
+                'telefono'=>'required'
+
+            ]);
+
+            Customer::create([
+                'no_doc' => $this->noIdentidad,
+                'nombre' =>  $this->nombreCliente,
+                'correo'=>$this->correo,
+                'telefono'=>$this->telefono,
+                'direccion'=>$this->direccion,
+                'creado_por' => auth()->id(),
+            ]);
+
+            session()->flash('success', $this->nombreCliente . ' Cliente agregado exitosamente.');
+
+
+            return redirect('customers');
+        } catch (\Illuminate\Validation\ValidationException $e) {
+            $this->dispatch('hide-breed-modal');
+            $this->dispatch('remove-backdrop');
+            session()->flash('danger', 'Hubo errores al guardar raza.');
+            session()->flash('validationErrors', $e->errors());
+        }
+    }
+
+    public function update(){
+
     }
 }

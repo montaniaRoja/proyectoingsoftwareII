@@ -1,5 +1,5 @@
 @if ($message = Session::get('success'))
-    <div style="background-color: green; color:white; text-align: center;">
+    <div style="background-color: white; color:black; text-align: center;">
         <p>{{ $message }}</p>
     </div>
 @endif
