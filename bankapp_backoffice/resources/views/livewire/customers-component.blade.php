@@ -39,60 +39,65 @@
             {{ session('error') }}
         </div>
         @endif
+        @php
+        use Illuminate\Support\Facades\Crypt;
+        @endphp
         <div class="table-responsive">
-        <table class="account-table table" style="width:100%">
-            <thead>
-                <tr>
-                    <th>Id</th>
-                    <th>Identidad</th>
-                    <th>Nombre</th>
-                    <th>Correo</th>
-                    <th>Telefono</th>
-                    <th>Direccion</th>
-                    <th>Creado por</th>
-                    <th>Fecha Creacion</th>
-                    <th>Cuentas</th>
-                    <th>Editar</th>
+            <table class="account-table table" style="width:100%">
+                <thead>
+                    <tr>
+                        <th>Id</th>
+                        <th>Identidad</th>
+                        <th>Nombre</th>
+                        <th>Correo</th>
+                        <th>Telefono</th>
+                        <th>Direccion</th>
+                        <th>Creado por</th>
+                        <th>Fecha Creacion</th>
+                        <th>Cuentas</th>
+                        <th>Editar</th>
 
-                </tr>
-            </thead>
-            <tbody>
-                @forelse($customers as $customer)
-                <tr>
-                    <td>{{$customer->id}}</td>
-                    <td>{{$customer->no_doc}}</td>
-                    <td>{{$customer->nombre}}</td>
-                    <td>{{$customer?->correo }}</td>
-                    <td>{{$customer->telefono}}</td>
-                    <td>{{$customer->direccion}}</td>
-                    <td>{{$customer?->user->name}}</td>
-                    <td>{{$customer?->created_at}}</td>
+                    </tr>
+                </thead>
+                <tbody>
+                    @forelse($customers as $customer)
+                    <tr>
+                        <td>{{$customer->id}}</td>
+                        <td>{{$customer->no_doc}}</td>
+                        <td>{{$customer->nombre}}</td>
+                        <td>{{$customer?->correo }}</td>
+                        <td>{{$customer->telefono}}</td>
+                        <td>{{$customer->direccion}}</td>
+                        <td>{{$customer?->user->name}}</td>
+                        <td>{{$customer?->created_at}}</td>
 
-                    <td>
-                        <button type="button" class="btn btn-primary btn-sm">
-                            Cuentas
-                        </button>
-                    </td>
-                    <td>
-                        @can('editar clientes')
-                        <button type="button" class="btn btn-secondary btn-sm">
-                            Editar
-                        </button>
-                        @endcan
-                    </td>
+                        <td>
 
 
-                </tr>
-                @empty
+                            <a class="btn btn-primary btn-sm" href="{{ route('accounts', Crypt::encrypt($customer->id)) }}">
+                                Cuentas
+                            </a>
+                        </td>
+                        <td>
+                            @can('editar clientes')
+                            <button type="button" class="btn btn-secondary btn-sm">
+                                Editar
+                            </button>
+                            @endcan
+                        </td>
 
-                @endforelse
-            </tbody>
-        </table>
-        <div class="mt-3">
+
+                    </tr>
+                    @empty
+
+                    @endforelse
+                </tbody>
+            </table>
+            <div class="mt-3">
                 {{ $customers->links() }}
             </div>
         </div>
-        <div class="modal fade" id="customerModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+        <div class="modal fade" id="customerModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true" data-bs-backdrop="static" data-bs-keyboard="false">
             <div class="modal-dialog modal-dialog-centered modal-lg" role="document">
                 <div class="modal-content">
                     <div class="modal-header">
@@ -103,7 +108,7 @@
                     </div>
                     <div class="modal-body">
                         <form class="custom-form profile-form" wire:submit="{{ $customerId ? 'update' : 'store' }}">
-                            <input class="form-control" type="text" name="customerId" id="customerId" wire:model="customerId">
+                            <input class="form-control" type="text" name="customerId" id="customerId" wire:model="customerId" style="display: none;">
 
                             <input class="form-control" type="text" name="identidad" id="identidad" wire:model="noIdentidad" placeholder="Numero de Identidad">
 
@@ -114,8 +119,6 @@
                             <input class="form-control" type="text" name="telefono" id="telefono" wire:model="telefono" placeholder="Telefono">
 
                             <textarea class="form-control" name="direccion" id="direccion" wire:model="direccion" placeholder="Direccion"></textarea>
-
-
 
                             <div class="d-flex">
                                 <button type="submit" class="form-control me-3" style="background-color:cornflowerblue; color:black;">

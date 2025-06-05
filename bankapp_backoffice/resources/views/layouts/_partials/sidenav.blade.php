@@ -13,7 +13,7 @@
                 <div class="collapse ps-4" id="clientesSubmenu">
                     <ul class="nav flex-column">
                         <li class="nav-item">
-                            <a class="nav-link" href="{{route('customers')}}">Crear Clientes</a>
+                            <a class="nav-link" href="{{route('customers')}}">Todos los Clientes</a>
                         </li>
                         <li class="nav-item">
                             <a class="nav-link" href="#">Crear Empresas</a>

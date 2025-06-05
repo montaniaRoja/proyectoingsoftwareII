@@ -37,9 +37,8 @@ class CustomersComponent extends Component
 
     public function render()
     {
-
         try {
-            $customers = Customer::where('nombre', 'like', '%' . $this->search . '%')
+            $customers = Customer::where('nombre', 'ilike', '%' . $this->search . '%')
                 ->orWhere('no_doc', 'like', '%' . $this->search . '%')
                 ->orWhere('correo', 'like', '%' . $this->search . '%')
                 ->orderBy('id', 'desc')
