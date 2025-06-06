@@ -5,10 +5,11 @@ namespace App\Livewire;
 use Livewire\Component;
 use App\Models\Customer;
 use App\Models\Account;
+use App\Models\Transaccion;
+use App\Models\Balance;
 use Illuminate\Support\Facades\Crypt;
 use Illuminate\Contracts\Encryption\DecryptException;
 use Livewire\WithPagination;
-
 
 class CustomerAccountsComponent extends Component
 {
@@ -20,6 +21,11 @@ class CustomerAccountsComponent extends Component
     use WithPagination;
     protected $paginationTheme = 'bootstrap';
     protected $queryString = ['search', 'perPage'];
+    public $accountId = '';
+    public $transaccion = '';
+    public $monto = '';
+    public $saldo = '';
+    public $transactions = [];
 
 
     public function mount($customerId)
@@ -55,6 +61,18 @@ class CustomerAccountsComponent extends Component
         $this->dispatch('hide-account-modal');
     }
 
+    public function closeTransactionModal()
+    {
+        $this->reset('noCuenta', 'moneda', 'monto');
+        $this->dispatch('hide-transaction-modal');
+    }
+
+    public function closeTransactionsModal()
+    {
+
+        $this->dispatch('hide-transactions-modal');
+    }
+
     public function createAccount()
     {
         try {
@@ -80,5 +98,105 @@ class CustomerAccountsComponent extends Component
             session()->flash('danger', 'Hubo errores al guardar raza.');
             session()->flash('validationErrors', $e->errors());
         }
+    }
+
+    public function newTransaction($idCuenta)
+    {
+        $account = Account::where('id', $idCuenta)->first();
+
+        $this->accountId = $account->id;
+        $this->noCuenta = $account->no_cuenta;
+        $this->monto = 0;
+        $this->saldo = $account->saldo;
+        $this->dispatch('show-transaction-modal');
+    }
+
+    public function createTransaction()
+    {
+        try {
+
+            $validatedData = $this->validate([
+
+                'transaccion' => 'required',
+                'accountId' => 'required',
+                'monto' => 'required',
+                'saldo' => 'required'
+            ]);
+
+            if ($this->transaccion === "Retiro" && $this->monto > $this->saldo) {
+                session()->flash('danger', $this->transaccion . ' monto insuficiente.');
+                return redirect()->route('accounts', ['customerId' => Crypt::encrypt($this->customerId)]);
+            }
+
+            if ($this->transaccion === "Deposito") {
+                Transaccion::create([
+                    'cuenta_id' => $this->accountId,
+                    'tipo_movimiento' =>  $this->transaccion,
+                    'monto' =>  $this->monto,
+                    'cajero' => auth()->id(),
+                ]);
+
+                Account::where('id', $this->accountId)
+                    ->increment('saldo', $this->monto);
+            }
+
+            if ($this->transaccion === "Retiro") {
+                Transaccion::create([
+                    'cuenta_id' => $this->accountId,
+                    'tipo_movimiento' =>  $this->transaccion,
+                    'monto' =>  $this->monto,
+                    'cajero' => auth()->id(),
+                ]);
+
+                Account::where('id', $this->accountId)
+                    ->decrement('saldo', $this->monto);
+            }
+
+            session()->flash('success', $this->transaccion . ' creada exitosamente.');
+
+            return redirect()->route('accounts', ['customerId' => Crypt::encrypt($this->customerId)]);
+        } catch (\Illuminate\Validation\ValidationException $e) {
+            $this->dispatch('hide-account-modal');
+            session()->flash('danger', 'Hubo errores al guardar raza.');
+            session()->flash('validationErrors', $e->errors());
+        }
+    }
+
+    public function showTransactions($idCuenta)
+    {
+
+        Balance::truncate();
+
+        $cuenta=Account::where('id', $idCuenta)->first();
+
+        $balances=Transaccion::where('cuenta_id', $idCuenta)->orderBy('id')->get();
+
+        $saldo=0;
+        $montoDeposito=0;
+        $montoRetiro=0;
+
+        foreach($balances as $balance){
+            if($balance->tipo_movimiento==="Deposito"){
+                $saldo+=$balance->monto;
+                $montoDeposito=$balance->monto;
+                $montoRetiro=0;
+            }else{
+                $saldo-=$balance->monto;
+                $montoDeposito=0;
+                $montoRetiro=$balance->monto;
+            }
+            Balance::create([
+               'fecha'=>$balance->created_at,
+               'movimiento'=>$balance->tipo_movimiento,
+               'monto'=>$montoDeposito,
+               'saldo'=>$saldo,
+               'user'=>$balance->cajero,
+               'retiro'=>$montoRetiro
+            ]);
+        }
+
+        $this->noCuenta=$cuenta->no_cuenta;
+        $this->dispatch('setAccountFilters', $idCuenta);
+        $this->dispatch('show-transactions-modal');
     }
 }

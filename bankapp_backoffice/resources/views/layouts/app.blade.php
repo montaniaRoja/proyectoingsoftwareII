@@ -18,9 +18,13 @@
     <link href="{{asset('css/bootstrap-icons.css')}}" rel="stylesheet">
 
     <link href="{{asset('css/apexcharts.css')}}" rel="stylesheet">
+    <script defer src="https://cdn.jsdelivr.net/npm/alpinejs@3.x.x/dist/cdn.min.js"></script>
 
     <link href="{{asset('css/tooplate-mini-finance.css')}}" rel="stylesheet">
     @livewireStyles
+    <style>
+    [x-cloak] { display: none !important; }
+</style>
 </head>
 
 <body>
@@ -42,84 +46,84 @@
     <script src="{{asset('js/apexcharts.min.js')}}"></script>
     <script src="{{asset('js/custom.js')}}"></script>
     <script type="text/javascript">
-            var options = {
-              series: [13, 43, 22],
-              chart: {
-              width: 380,
-              type: 'pie',
+        var options = {
+            series: [13, 43, 22],
+            chart: {
+                width: 380,
+                type: 'pie',
             },
-            labels: ['Balance', 'Expense', 'Credit Loan',],
+            labels: ['Balance', 'Expense', 'Credit Loan', ],
             responsive: [{
-              breakpoint: 480,
-              options: {
-                chart: {
-                  width: 200
-                },
-                legend: {
-                  position: 'bottom'
+                breakpoint: 480,
+                options: {
+                    chart: {
+                        width: 200
+                    },
+                    legend: {
+                        position: 'bottom'
+                    }
                 }
-              }
             }]
-            };
+        };
 
-            var chart = new ApexCharts(document.querySelector("#pie-chart"), options);
-            chart.render();
-        </script>
+        var chart = new ApexCharts(document.querySelector("#pie-chart"), options);
+        chart.render();
+    </script>
 
-        <script type="text/javascript">
-            var options = {
-              series: [{
-              name: 'Income',
-              data: [44, 55, 57, 56, 61, 58, 63, 60, 66]
+    <script type="text/javascript">
+        var options = {
+            series: [{
+                name: 'Income',
+                data: [44, 55, 57, 56, 61, 58, 63, 60, 66]
             }, {
-              name: 'Expense',
-              data: [76, 85, 101, 98, 87, 105, 91, 114, 94]
+                name: 'Expense',
+                data: [76, 85, 101, 98, 87, 105, 91, 114, 94]
             }, {
-              name: 'Transfer',
-              data: [35, 41, 36, 26, 45, 48, 52, 53, 41]
+                name: 'Transfer',
+                data: [35, 41, 36, 26, 45, 48, 52, 53, 41]
             }],
-              chart: {
-              type: 'bar',
-              height: 350
+            chart: {
+                type: 'bar',
+                height: 350
             },
             plotOptions: {
-              bar: {
-                horizontal: false,
-                columnWidth: '55%',
-                endingShape: 'rounded'
-              },
+                bar: {
+                    horizontal: false,
+                    columnWidth: '55%',
+                    endingShape: 'rounded'
+                },
             },
             dataLabels: {
-              enabled: false
+                enabled: false
             },
             stroke: {
-              show: true,
-              width: 2,
-              colors: ['transparent']
+                show: true,
+                width: 2,
+                colors: ['transparent']
             },
             xaxis: {
-              categories: ['Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct'],
+                categories: ['Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct'],
             },
             yaxis: {
-              title: {
-                text: '$ (thousands)'
-              }
+                title: {
+                    text: '$ (thousands)'
+                }
             },
             fill: {
-              opacity: 1
+                opacity: 1
             },
             tooltip: {
-              y: {
-                formatter: function (val) {
-                  return "$ " + val + " thousands"
+                y: {
+                    formatter: function(val) {
+                        return "$ " + val + " thousands"
+                    }
                 }
-              }
             }
-            };
+        };
 
-            var chart = new ApexCharts(document.querySelector("#chart"), options);
-            chart.render();
-        </script>
+        var chart = new ApexCharts(document.querySelector("#chart"), options);
+        chart.render();
+    </script>
     @livewireScripts
 </body>
 
