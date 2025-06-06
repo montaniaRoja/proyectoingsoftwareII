@@ -56,8 +56,6 @@ class TransactionsTable extends DataTableComponent
         return [
             Column::make("Fecha", "fecha"),
 
-
-
             Column::make("Depositos", "monto")
                 ->format(fn($value, $row) => number_format($value, 2)),
 
