@@ -15,8 +15,8 @@ class UserSeeder extends Seeder
     {
         // Lista de usuarios a importar (simulación)
         $admin = User::create([
-           'name' => 'administrador',
-           'email' => 'admin@gmail.com',
+           'name' => 'administrador dos',
+           'email' => 'admin02@gmail.com',
            'password' => Hash::make('ofloda01'),
            'authorized'=>true,
            'rol_id'=>1

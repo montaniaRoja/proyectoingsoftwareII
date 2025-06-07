@@ -6,11 +6,10 @@
 
         <div class="card mb-4">
             <div class="card-header">
-                @can('crear cuentas')
                 <button type="button" class="btn btn-primary" wire:click="openAccountModal">
                     Nueva Cuenta
                 </button>
-                @endcan
+
             </div>
         </div>
 
