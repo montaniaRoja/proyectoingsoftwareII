@@ -19,6 +19,7 @@ return new class extends Migration
             $table->double('saldo');
             $table->unsignedInteger('user');
             $table->timestamps();
+            $table->foreign('user')->references('id')->on('users');
         });
     }
 

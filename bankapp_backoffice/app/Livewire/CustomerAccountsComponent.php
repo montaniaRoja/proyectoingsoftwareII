@@ -26,6 +26,7 @@ class CustomerAccountsComponent extends Component
     public $monto = '';
     public $saldo = '';
     public $transactions = [];
+    public $customerName='';
 
 
     public function mount($customerId)
@@ -34,6 +35,7 @@ class CustomerAccountsComponent extends Component
             $id = Crypt::decrypt($customerId);
             $this->customerId = $id;
             $this->customer = Customer::findOrFail($id);
+            $this->customerName=$this->customer->nombre;
         } catch (DecryptException $e) {
             abort(404);
         }

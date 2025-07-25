@@ -1,15 +1,17 @@
 <div class="container-fluid px-4">
     <h5 class="mt-4">Cuentas</h1>
+    <input type="text" wire:model="customerName" style="border: none;" disabled>
         <ol class="breadcrumb mb-4">
             <li class="breadcrumb-item active">@include('layouts._partials.messages')</li>
         </ol>
 
         <div class="card mb-4">
             <div class="card-header">
+                @can('crear cuentas')
                 <button type="button" class="btn btn-primary" wire:click="openAccountModal">
                     Nueva Cuenta
                 </button>
-
+                @endcan
             </div>
         </div>
 
@@ -46,7 +48,11 @@
                             <td>{{$account->no_cuenta}}</td>
                             <td>{{$account->moneda}}</td>
                             <td>{{$account->saldo}}</td>
-                            <td><button class="btn btn-primary btn-sm" wire:click="newTransaction({{$account->id}})">Registrar</button></td>
+
+                            <td>@can('crear transacciones')
+                                <button class="btn btn-primary btn-sm" wire:click="newTransaction({{$account->id}})">Registrar</button>
+                                @endcan
+                            </td>
                             <td><button class="btn btn-secondary btn-sm" wire:click="showTransactions({{$account->id}})">Historial</button></td>
 
                         </tr>
@@ -79,7 +85,6 @@
                                     <option value="" selected>Selecione Moneda</option>
                                     <option value="Lempiras">Lempiras</option>
                                     <option value="Dolar">Dolares</option>
-                                    <option value="Euros">Euros</option>
                                 </select>
 
                                 <input class="form-control" type="text" name="moneda" id="moneda" wire:model="moneda" style="display: none;">

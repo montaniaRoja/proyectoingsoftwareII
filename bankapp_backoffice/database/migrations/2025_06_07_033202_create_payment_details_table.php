@@ -18,6 +18,8 @@ return new class extends Migration
             $table->float('monto');
             $table->string('status');
             $table->timestamps();
+
+            $table->foreign('id_pago')->references('id')->on('payments');
         });
     }
 

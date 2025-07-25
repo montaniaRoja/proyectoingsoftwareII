@@ -13,35 +13,17 @@
                 <div class="collapse ps-4" id="clientesSubmenu">
                     <ul class="nav flex-column">
                         <li class="nav-item">
-                            <a class="nav-link" href="{{route('customers')}}">Todos los Clientes</a>
+                            <a class="nav-link" href="{{route('customers')}}">Personas Naturales</a>
                         </li>
                         <li class="nav-item">
-                            <a class="nav-link" href="#">Crear Empresas</a>
+                            <a class="nav-link" href="{{route('companies')}}">Empresas</a>
                         </li>
                     </ul>
                 </div>
             </li>
 
             <!-- Otros ítems -->
-            <li class="nav-item">
-                <a class="nav-link d-flex justify-content-between align-items-center" data-bs-toggle="collapse" href="#transaccionesSubmenu" role="button" aria-expanded="false" aria-controls="clientesSubmenu">
-                    <span>
-                        <i class="bi-house-fill me-2"></i>
-                        Transacciones
-                    </span>
-                    <i class="bi-caret-down-fill"></i>
-                </a>
-                <div class="collapse ps-4" id="transaccionesSubmenu">
-                    <ul class="nav flex-column">
-                        <li class="nav-item">
-                            <a class="nav-link" href="#">Depositos</a>
-                        </li>
-                        <li class="nav-item">
-                            <a class="nav-link" href="#">Retiros</a>
-                        </li>
-                    </ul>
-                </div>
-            </li>
+
 
             <li class="nav-item">
                 <a class="nav-link d-flex justify-content-between align-items-center" data-bs-toggle="collapse" href="#administracionSubmenu" role="button" aria-expanded="false" aria-controls="clientesSubmenu">

@@ -18,4 +18,7 @@ Route::middleware(['auth'])->group(function () {
     Route::view('/customers', 'appviews.customers')->name('customers');
     Route::view('/accounts/{customerId}', 'appviews.accounts')->name('accounts');
 
+    Route::view('/companies', 'appviews.companies')->name('companies');
+
+
 });
