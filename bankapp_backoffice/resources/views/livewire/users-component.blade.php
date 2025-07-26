@@ -37,7 +37,7 @@
         @endif
 
         <div class="table-responsive">
-            <table class="account-table table" style="width:100%">
+            <table class="table table-striped" style="width:100%">
                 <thead>
                     <tr>
                         <th>Id</th>
@@ -62,10 +62,12 @@
                         <td>False</td>
                         @endif
                         <td>
+                            @can('autorizar usuarios')
                             <button type="button" class="btn btn-primary btn-sm"
                                 wire:click="edit({{$user->id}})">
                                 Editar
                             </button>
+                            @endcan
                         </td>
                     </tr>
                     @empty
@@ -81,7 +83,7 @@
             <div class="modal-dialog modal-dialog-centered modal-lg" role="document">
                 <div class="modal-content">
                     <div class="modal-header">
-                        <h5 class="modal-title" id="exampleModalLabel">Agregar Cliente</h5>
+                        <h5 class="modal-title" id="exampleModalLabel">Autorizar Usuario</h5>
 
                     </div>
                     <div class="modal-body">

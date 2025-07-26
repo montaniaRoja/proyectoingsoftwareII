@@ -40,7 +40,7 @@
         use Illuminate\Support\Facades\Crypt;
         @endphp
         <div class="table-responsive">
-            <table class="account-table table" style="width:100%">
+            <table class="table table-striped" style="width:100%">
                 <thead>
                     <tr>
                         <th>Id</th>
@@ -60,9 +60,11 @@
                         <td>{{$company?->telefono }}</td>
 
                         <td>
+                            @can('crear cuentas')
                             <button class="btn btn-primary btn-sm" wire:click="addPayment({{$company->id}})">
                                 Nuevo Contrato
                             </button>
+                            @endcan
                         </td>
                         <td>
                             @can('editar clientes')

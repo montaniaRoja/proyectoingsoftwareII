@@ -27,7 +27,7 @@
 
             </div>
             <div class="table-responsive">
-                <table class="account-table table" style="width:100%">
+                <table class="table table-striped" style="width:100%">
                     <thead>
                         <tr>
                             <th>Id Cuenta</th>

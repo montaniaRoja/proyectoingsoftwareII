@@ -36,11 +36,17 @@
                 <div class="collapse ps-4" id="administracionSubmenu">
                     <ul class="nav flex-column">
                         <li class="nav-item">
+                            @can('autorizar usuarios')
                             <a class="nav-link" href="{{route('users')}}">Usuarios</a>
+                            @endcan
                         </li>
+
                         <li class="nav-item">
-                            <a class="nav-link" href="#">Roles</a>
+                            @can('create roles')
+                            <a class="nav-link" href="{{route('roles')}}">Roles</a>
+                            @endcan
                         </li>
+
                     </ul>
                 </div>
             </li>

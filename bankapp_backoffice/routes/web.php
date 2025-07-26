@@ -24,8 +24,8 @@ Route::middleware(['auth'])->group(function () {
     Route::view('/index', 'appviews.index')->name('index');
     Route::view('/customers', 'appviews.customers')->name('customers');
     Route::view('/accounts/{customerId}', 'appviews.accounts')->name('accounts');
-    Route::view('/companies', 'appviews.companies')->name('companies');
-    Route::view('/users', 'appviews.users')->name('users');
-
+    Route::view('/companies', 'appviews.companies')->name('companies')->middleware('can:crear clientes');
+    Route::view('/users', 'appviews.users')->name('users')->middleware('can:autorizar usuarios');
+    Route::view('/roles', 'appviews.roles')->name('roles')->middleware('can:create roles');
 
 });
