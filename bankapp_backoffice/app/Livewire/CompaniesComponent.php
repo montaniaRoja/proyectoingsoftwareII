@@ -21,6 +21,9 @@ class CompaniesComponent extends Component
     public $companyId = '';
     public $clavecontrato = '';
     public $montocontrato = '';
+    public $periodo = '';
+    public $suscriptor = '';
+    public $nombreEmpresa='';
 
     protected $paginationTheme = 'bootstrap';
     protected $queryString = ['search', 'perPage'];
@@ -73,6 +76,11 @@ class CompaniesComponent extends Component
         $this->dispatch('hide-payment-modal');
     }
 
+    public function closeContratosModal()
+    {
+        $this->dispatch('hide-contratos-modal');
+    }
+
     public function store()
     {
         try {
@@ -118,12 +126,16 @@ class CompaniesComponent extends Component
             $validatedData = $this->validate([
                 'clavecontrato' => 'required',
                 'montocontrato' => 'required',
+                'periodo' => 'required',
+                'suscriptor' => 'required'
 
             ]);
             PaymentDetail::create([
                 'id_pago' => $this->companyId,
                 'clavepago' => $this->clavecontrato,
                 'monto' => $this->montocontrato,
+                'periodo' => $this->periodo,
+                'suscriptor' => $this->suscriptor,
                 'status' => "Pendiente"
             ]);
             session()->flash('success', ' Se agrego un nuevo saldo de contrato a la empresa.');
@@ -135,5 +147,22 @@ class CompaniesComponent extends Component
             session()->flash('danger', 'Hubo errores al crear el pago.');
             session()->flash('validationErrors', $e->errors());
         }
+    }
+
+    public function showContratos($companyId){
+        $empresa=DB::table('payments')
+        ->where('id',$companyId)
+        ->first();
+
+        $this->nombreEmpresa=$empresa->nombre_pago;
+
+        $detalles=DB::table('payment_details')
+        ->where('id_pago',$companyId)
+        ->where('status','Pendiente')
+        ->get();
+
+        $this->dispatch('setDetailPaymentsFilter', $companyId);
+
+        $this->dispatch('show-contratos-modal');
     }
 }

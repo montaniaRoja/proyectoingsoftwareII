@@ -80,7 +80,7 @@
                         </td>
                         <td>
                             @can('editar clientes')
-                            <button type="button" class="btn btn-secondary btn-sm">
+                            <button type="button" class="btn btn-secondary btn-sm" wire:click="openCustomerEditWindow({{$customer->id}})">
                                 Editar
                             </button>
                             @endcan
@@ -101,14 +101,13 @@
             <div class="modal-dialog modal-dialog-centered modal-lg" role="document">
                 <div class="modal-content">
                     <div class="modal-header">
-                        <h5 class="modal-title" id="exampleModalLabel">{{ $customerId ? 'Editar Cliente' : 'Agregar Cliente' }}</h5>
+                        <h5 class="modal-title" id="exampleModalLabel">Agregar Cliente</h5>
                         <button type="button" class="close" data-dismiss="modal" aria-label="Close" wire:click="closeModal">
                             <span aria-hidden="true">&times;</span>
                         </button>
                     </div>
                     <div class="modal-body">
-                        <form class="custom-form profile-form" wire:submit="{{ $customerId ? 'update' : 'store' }}">
-                            <input class="form-control" type="text" name="customerId" id="customerId" wire:model="customerId" style="display: none;">
+                        <form class="custom-form profile-form" wire:submit="store">
 
                             <input class="form-control" type="text" name="identidad" id="identidad" wire:model="noIdentidad" placeholder="Numero de Identidad">
 
@@ -122,10 +121,51 @@
 
                             <div class="d-flex">
                                 <button type="submit" class="form-control me-3" style="background-color:cornflowerblue; color:black;">
-                                    {{ $customerId ? 'Actualizar' : 'Agregar' }}
+                                    Agregar
                                 </button>
 
                                 <button type="button" class="form-control ms-2" data-dismiss="modal" wire:click="closeModal">
+                                    Cancelar
+                                </button>
+                            </div>
+                        </form>
+                    </div>
+                    <div class="modal-footer">
+
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="modal fade" id="editCustomerModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" data-bs-backdrop="static" data-bs-keyboard="false">
+            <div class="modal-dialog modal-dialog-centered modal-lg" role="document">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h5 class="modal-title" id="exampleModalLabel">Agregar Cliente</h5>
+                        <button type="button" class="close" data-dismiss="modal" aria-label="Close" wire:click="closeModal">
+                            <span aria-hidden="true">&times;</span>
+                        </button>
+                    </div>
+                    <div class="modal-body">
+                        <form class="custom-form profile-form" wire:submit="update">
+                            <input class="form-control" type="text" name="customerId" id="customerId" wire:model="customerId" value="{{$this->customerId}}">
+
+                            <input class="form-control" type="text" name="identidad" id="identidad" wire:model="noIdentidad" value="{{$this->noIdentidad}}">
+
+                            <input class="form-control" type="text" name="nombre" id="nombre" wire:model="nombreCliente" value="{{$this->nombreCliente}}">
+
+                            <input class="form-control" type="email" name="profile-email" id="profile-email" wire:model="correo" value="{{$this->correo}}">
+
+                            <input class="form-control" type="text" name="telefono" id="telefono" wire:model="telefono" value="{{$this->telefono}}">
+
+                            <input type="text" class="form-control" name="direccion" id="direccion" wire:model="direccion" value="{{$this->direccion}}">
+
+                            <div class="d-flex">
+                                <button type="submit" class="form-control me-3" style="background-color:cornflowerblue; color:black;">
+                                    Actualizar
+                                </button>
+
+                                <button type="button" class="form-control ms-2" data-dismiss="modal" wire:click="closeEditModal">
                                     Cancelar
                                 </button>
                             </div>

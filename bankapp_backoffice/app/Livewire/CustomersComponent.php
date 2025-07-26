@@ -14,12 +14,12 @@ class CustomersComponent extends Component
     use WithPagination;
     public $search = '';
     public $perPage = 10;
-    public $customerId='';
-    public $noIdentidad='';
-    public $nombreCliente='';
-    public $correo='';
-    public $direccion='';
-    public $telefono='';
+    public $customerId = '';
+    public $noIdentidad = '';
+    public $nombreCliente = '';
+    public $correo = '';
+    public $direccion = '';
+    public $telefono = '';
 
 
     protected $paginationTheme = 'bootstrap';
@@ -59,31 +59,39 @@ class CustomersComponent extends Component
         return view('livewire.customers-component', ['customers' => $customers]);
     }
 
-    public function getCustomerData(){
+    public function getCustomerData()
+    {
         $this->dispatch('show-customer-modal');
     }
 
-    public function closeModal(){
+    public function closeModal()
+    {
         $this->dispatch('hide-customer-modal');
     }
 
-    public function store(){
-            try {
+    public function closeEditModal()
+    {
+        $this->dispatch('hide-editcustomer-modal');
+    }
+
+    public function store()
+    {
+        try {
             $validatedData = $this->validate([
                 'noIdentidad' => 'required',
                 'nombreCliente' => 'required',
-                'correo'=>'required',
-                'direccion'=>'required',
-                'telefono'=>'required'
+                'correo' => 'required',
+                'direccion' => 'required',
+                'telefono' => 'required'
 
             ]);
 
             Customer::create([
                 'no_doc' => $this->noIdentidad,
                 'nombre' =>  $this->nombreCliente,
-                'correo'=>$this->correo,
-                'telefono'=>$this->telefono,
-                'direccion'=>$this->direccion,
+                'correo' => $this->correo,
+                'telefono' => $this->telefono,
+                'direccion' => $this->direccion,
                 'creado_por' => auth()->id(),
             ]);
 
@@ -99,7 +107,54 @@ class CustomersComponent extends Component
         }
     }
 
-    public function update(){
+    public function update() {
+         try {
+            $validatedData = $this->validate([
+                'customerId'=>'required',
+                'noIdentidad' => 'required',
+                'nombreCliente' => 'required',
+                'correo' => 'required',
+                'direccion' => 'required',
+                'telefono' => 'required'
 
+            ]);
+
+            $cliente = Customer::findOrFail($this->customerId);
+
+            $cliente->update([
+                'no_doc'=>$this->noIdentidad,
+                'nombre'=>$this->nombreCliente,
+                'correo'=>$this->correo,
+                'direccion'=>$this->direccion,
+                'telefono'=>$this->telefono
+            ]);
+
+            session()->flash('success', $this->nombreCliente . ' Cliente actualizado exitosamente.');
+
+
+            return redirect('customers');
+        } catch (\Illuminate\Validation\ValidationException $e) {
+            $this->dispatch('hide-breed-modal');
+            $this->dispatch('remove-backdrop');
+            session()->flash('danger', 'Hubo errores al guardar raza.');
+            session()->flash('validationErrors', $e->errors());
+        }
+    }
+
+    public function openCustomerEditWindow($clienteId)
+    {
+
+        $cliente = Customer::findOrFail($clienteId);
+
+        $this->customerId = $cliente->id;
+        $this->noIdentidad = $cliente->no_doc;
+        $this->nombreCliente = $cliente->nombre;
+        $this->correo = $cliente->correo;
+        $this->direccion = $cliente->direccion;
+        $this->telefono = $cliente->telefono;
+
+
+
+        $this->dispatch('show-editcustomer-modal');
     }
 }

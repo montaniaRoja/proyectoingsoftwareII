@@ -36,7 +36,7 @@
                 <div class="collapse ps-4" id="administracionSubmenu">
                     <ul class="nav flex-column">
                         <li class="nav-item">
-                            <a class="nav-link" href="#">Usuarios</a>
+                            <a class="nav-link" href="{{route('users')}}">Usuarios</a>
                         </li>
                         <li class="nav-item">
                             <a class="nav-link" href="#">Roles</a>

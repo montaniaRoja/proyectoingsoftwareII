@@ -66,7 +66,7 @@
                         </td>
                         <td>
                             @can('editar clientes')
-                            <button type="button" class="btn btn-secondary btn-sm">
+                            <button type="button" class="btn btn-secondary btn-sm" wire:click="showContratos({{$company->id}})">
                                 Contratos Pendientes
                             </button>
                             @endcan
@@ -87,12 +87,12 @@
                     <div class="modal-header">
                         <h5 class="modal-title" id="exampleModalLabel">{{ $companyId ? 'Editar Empresa' : 'Agregar Empresa' }}</h5>
 
-                            <span aria-hidden="true">&times;</span>
+                        <span aria-hidden="true">&times;</span>
                         </button>
                     </div>
                     <div class="modal-body">
                         <form class="custom-form profile-form" wire:submit="{{ $companyId ? 'update' : 'store' }}">
-                            <input class="form-control" type="text" name="companyId" id="companyId" wire:model="companyId" >
+                            <input class="form-control" type="text" name="companyId" id="companyId" wire:model="companyId">
 
                             <input class="form-control" type="text" name="rtn" id="rtn" wire:model="rtn" placeholder="Numero de RTN">
 
@@ -125,7 +125,7 @@
                     <div class="modal-header">
                         <h5 class="modal-title" id="exampleModalLabel">Agregar Contrato</h5>
 
-                            <span aria-hidden="true">&times;</span>
+                        <span aria-hidden="true">&times;</span>
                         </button>
                     </div>
                     <div class="modal-body">
@@ -136,6 +136,10 @@
                             <input class="form-control" type="text" name="clavecontrato" id="clavecontrato" wire:model="clavecontrato" placeholder="Numero de Contrato">
 
                             <input class="form-control" type="number" name="montocontrato" id="montocontrato" wire:model="montocontrato" placeholder="Total a pagar">
+
+                            <input class="form-control" type="text" name="periodo" id="periodo" wire:model="periodo" placeholder="Periodo">
+
+                            <input class="form-control" type="text" name="suscriptor" id="suscriptor" wire:model="suscriptor" placeholder="Nombre del Suscriptor">
 
                             <div class="d-flex">
                                 <button type="submit" class="form-control me-3" style="background-color:cornflowerblue; color:black;">
@@ -149,6 +153,30 @@
                         </form>
                     </div>
                     <div class="modal-footer">
+
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="modal fade" id="contratosModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true" data-bs-backdrop="static" data-bs-keyboard="false">
+            <div class="modal-dialog modal-dialog-centered modal-lg" role="document">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h5 class="modal-title" id="exampleModalLabel">Contratos Pendientes</h5>
+                        <p class="modal-title" style="font-weight: bold;">{{$nombreEmpresa}}</p>
+
+
+                    </div>
+                    <div class="modal-body">
+
+                        <livewire:detalles-table />
+
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="form-control ms-2" data-dismiss="modal" wire:click="closeContratosModal">
+                            Cerrar
+                        </button>
 
                     </div>
                 </div>

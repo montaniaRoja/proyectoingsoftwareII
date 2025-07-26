@@ -10,14 +10,11 @@ document.addEventListener('DOMContentLoaded', function () {
         let companyModal = new bootstrap.Modal(document.getElementById("companyModal"));
 
         companyModal.hide();
-        var backdrop = document.querySelector('.modal-backdrop');
-        if (backdrop) {
-            backdrop.remove(); // Elimina el backdrop
-        }
+        hideBackdrop();
 
     });
 
-     Livewire.on('show-payment-modal', () => {
+    Livewire.on('show-payment-modal', () => {
         setTimeout(() => {
             var paymentModal = new bootstrap.Modal(document.getElementById('paymentModal'));
             paymentModal.show();
@@ -29,16 +26,38 @@ document.addEventListener('DOMContentLoaded', function () {
     Livewire.on('hide-payment-modal', () => {
         let paymentModal = new bootstrap.Modal(document.getElementById("paymentModal"));
 
-        document.getElementById('clavecontrato').value='';
-        document.getElementById('montocontrato').value='';
+        document.getElementById('clavecontrato').value = '';
+        document.getElementById('montocontrato').value = '';
 
         paymentModal.hide();
-        var backdrop = document.querySelector('.modal-backdrop');
-        if (backdrop) {
-            backdrop.remove(); // Elimina el backdrop
-        }
+        hideBackdrop();
+
+    });
+
+    Livewire.on('show-contratos-modal', () => {
+        setTimeout(() => {
+            var contratosModal = new bootstrap.Modal(document.getElementById('contratosModal'));
+            contratosModal.show();
+
+        }, 10);
+
+    });
+
+    Livewire.on('hide-contratos-modal', () => {
+        let contratosModal = new bootstrap.Modal(document.getElementById("contratosModal"));
+
+        contratosModal.hide();
+        hideBackdrop();
+
 
     });
 
 
 });
+
+function hideBackdrop() {
+    var backdrop = document.querySelector('.modal-backdrop');
+    if (backdrop) {
+        backdrop.remove(); // Elimina el backdrop
+    }
+}

@@ -10,4 +10,8 @@ class Payment extends Model
 {
     use HasFactory;
     protected $guarded = [];
+
+    public function paymentDetails(){
+        return $this->hasMany(PaymentDetail::class);
+    }
 }
