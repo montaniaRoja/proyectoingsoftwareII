@@ -88,9 +88,9 @@
                     </div>
                     <div class="modal-body">
                         <form wire:submit="update">
-                            <input type="text" name="rol" id="rol" wire:model="userRol">
+                            <input type="text" name="rol" id="rol" wire:model="userRol" style="display: none;">
 
-                            <input type="text" name="userId" id="userId" wire:model="userId">
+                            <input type="text" name="userId" id="userId" wire:model="userId" style="display: none;">
                             <div class="form-floating mb-3" style="width: 100%;">
                                 <input type="text" class="form-control" name="name" id="userName" readonly wire:model="userName">
                                 <label for="name">Nombre del Usuario</label>

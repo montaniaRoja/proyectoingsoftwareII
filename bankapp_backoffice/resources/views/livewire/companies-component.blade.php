@@ -94,7 +94,7 @@
                     </div>
                     <div class="modal-body">
                         <form class="custom-form profile-form" wire:submit="{{ $companyId ? 'update' : 'store' }}">
-                            <input class="form-control" type="text" name="companyId" id="companyId" wire:model="companyId">
+                            <input class="form-control" type="text" name="companyId" id="companyId" wire:model="companyId" style="display: none;">
 
                             <input class="form-control" type="text" name="rtn" id="rtn" wire:model="rtn" placeholder="Numero de RTN">
 

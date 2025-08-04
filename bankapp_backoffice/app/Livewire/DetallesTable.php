@@ -38,7 +38,8 @@ class DetallesTable extends DataTableComponent
     {
         $query=PaymentDetail::query()
         ->select('payment_details.*')
-        ->where('id_pago',$this->companyId);
+        ->where('id_pago',$this->companyId)
+        ->where('status','Pendiente');
 
         return $query;
 

@@ -141,14 +141,14 @@
             <div class="modal-dialog modal-dialog-centered modal-lg" role="document">
                 <div class="modal-content">
                     <div class="modal-header">
-                        <h5 class="modal-title" id="exampleModalLabel">Agregar Cliente</h5>
+                        <h5 class="modal-title" id="exampleModalLabel">Editar Cliente</h5>
                         <button type="button" class="close" data-dismiss="modal" aria-label="Close" wire:click="closeModal">
                             <span aria-hidden="true">&times;</span>
                         </button>
                     </div>
                     <div class="modal-body">
                         <form class="custom-form profile-form" wire:submit="update">
-                            <input class="form-control" type="text" name="customerId" id="customerId" wire:model="customerId" value="{{$this->customerId}}">
+                            <input class="form-control" type="text" name="customerId" id="customerId" wire:model="customerId" value="{{$this->customerId}}" style="display: none;">
 
                             <input class="form-control" type="text" name="identidad" id="identidad" wire:model="noIdentidad" value="{{$this->noIdentidad}}">
 

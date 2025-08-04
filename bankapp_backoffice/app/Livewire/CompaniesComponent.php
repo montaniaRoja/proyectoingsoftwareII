@@ -156,10 +156,11 @@ class CompaniesComponent extends Component
 
         $this->nombreEmpresa=$empresa->nombre_pago;
 
-        $detalles=DB::table('payment_details')
+        /*$detalles=DB::table('payment_details')
         ->where('id_pago',$companyId)
-        ->where('status','Pendiente')
+        ->where('status','=','Pendiente')
         ->get();
+*/
 
         $this->dispatch('setDetailPaymentsFilter', $companyId);
 

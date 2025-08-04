@@ -1,37 +1,36 @@
-
 services:
   app:
     build:
       context: .
       dockerfile: Dockerfile
-    image: laravel-app
+    image: desarrollotuvet/bank-app:latest
     container_name: bankproject-app
     restart: unless-stopped
-    volumes:
-      - .:/var/www
+    # No volume for code here, as it's baked into the image for production
     networks:
-      - laravel
+      - laravel # This service uses the 'laravel' network
     working_dir: /var/www
 
-
   webserver:
-    image: nginx:alpine
+    build:
+      context: .
+      dockerfile: nginx.Dockerfile # Assuming you've created this Dockerfile for Nginx
+    image: desarrollotuvet/bank-nginx:latest
     container_name: nginx-server-bankproject
     restart: unless-stopped
     ports:
-      - "8000:80"
-    volumes:
-      - .:/var/www
-      - ./nginx/default.conf:/etc/nginx/conf.d/default.conf
+      - "8010:80"
+    # No volume for Nginx config or code here, as they're baked into the image
     depends_on:
       - app
     networks:
-      - laravel
+      - laravel # This service also uses the 'laravel' network
 
-
-volumes:
-  dbdata:
-
+# --- IMPORTANT: Define your networks here ---
 networks:
   laravel:
-    driver: bridge
+    driver: bridge # Specifies that it's a standard bridge network
+
+# Optional: If you use a database service later, you might have a 'volumes' section
+# volumes:
+#   dbdata:
