@@ -62,7 +62,7 @@
                 <div class="collapse ps-4" id="reportesSubmenu">
                     <ul class="nav flex-column">
                         <li class="nav-item">
-                            <a class="nav-link" href="#">Depositos Totales</a>
+                            <a class="nav-link" href="{{route('deposits')}}">Depositos Totales</a>
                         </li>
                         <li class="nav-item">
                             <a class="nav-link" href="#">Estado de Cuenta</a>

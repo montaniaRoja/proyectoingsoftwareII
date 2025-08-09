@@ -27,5 +27,7 @@ Route::middleware(['auth'])->group(function () {
     Route::view('/companies', 'appviews.companies')->name('companies')->middleware('can:crear clientes');
     Route::view('/users', 'appviews.users')->name('users')->middleware('can:autorizar usuarios');
     Route::view('/roles', 'appviews.roles')->name('roles')->middleware('can:create roles');
+    Route::view('/deposits', 'appviews.depositos-report')->name('deposits')->middleware('can:see deposits');
+
 
 });
