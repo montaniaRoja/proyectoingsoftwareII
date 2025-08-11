@@ -10,6 +10,8 @@ use App\Models\Balance;
 use Illuminate\Support\Facades\Crypt;
 use Illuminate\Contracts\Encryption\DecryptException;
 use Livewire\WithPagination;
+use Carbon\Carbon;
+
 
 class CustomerAccountsComponent extends Component
 {
@@ -26,7 +28,9 @@ class CustomerAccountsComponent extends Component
     public $monto = '';
     public $saldo = '';
     public $transactions = [];
-    public $customerName='';
+    public $customerName = '';
+    public $lempiraSimbolo="L";
+    public $dolarSimbolo="USD";
 
 
     public function mount($customerId)
@@ -35,7 +39,7 @@ class CustomerAccountsComponent extends Component
             $id = Crypt::decrypt($customerId);
             $this->customerId = $id;
             $this->customer = Customer::findOrFail($id);
-            $this->customerName=$this->customer->nombre;
+            $this->customerName = $this->customer->nombre;
         } catch (DecryptException $e) {
             abort(404);
         }
@@ -85,11 +89,19 @@ class CustomerAccountsComponent extends Component
                 'moneda' => 'required'
             ]);
 
+            $simbolo=$this->dolarSimbolo;
+
+            if($this->moneda=="Lempiras"){
+                $simbolo=$this->lempiraSimbolo;
+
+            }
+
             Account::create([
                 'no_cuenta' => $this->noCuenta,
                 'id_cliente' =>  $this->customerId,
                 'moneda' =>  $this->moneda,
                 'creado_por' => auth()->id(),
+                'simbolo'=>$simbolo
             ]);
 
             session()->flash('success', $this->noCuenta . ' Cuenta creada exitosamente.');
@@ -136,6 +148,7 @@ class CustomerAccountsComponent extends Component
                     'tipo_movimiento' =>  $this->transaccion,
                     'monto' =>  $this->monto,
                     'cajero' => auth()->id(),
+                    'fecha'           => Carbon::today(),
                 ]);
 
                 Account::where('id', $this->accountId)
@@ -148,6 +161,7 @@ class CustomerAccountsComponent extends Component
                     'tipo_movimiento' =>  $this->transaccion,
                     'monto' =>  $this->monto,
                     'cajero' => auth()->id(),
+                    'fecha'           => Carbon::today(),
                 ]);
 
                 Account::where('id', $this->accountId)
@@ -169,35 +183,35 @@ class CustomerAccountsComponent extends Component
 
         Balance::truncate();
 
-        $cuenta=Account::where('id', $idCuenta)->first();
+        $cuenta = Account::where('id', $idCuenta)->first();
 
-        $balances=Transaccion::where('cuenta_id', $idCuenta)->orderBy('id')->get();
+        $balances = Transaccion::where('cuenta_id', $idCuenta)->orderBy('id')->get();
 
-        $saldo=0;
-        $montoDeposito=0;
-        $montoRetiro=0;
+        $saldo = 0;
+        $montoDeposito = 0;
+        $montoRetiro = 0;
 
-        foreach($balances as $balance){
-            if($balance->tipo_movimiento==="Deposito"){
-                $saldo+=$balance->monto;
-                $montoDeposito=$balance->monto;
-                $montoRetiro=0;
-            }else{
-                $saldo-=$balance->monto;
-                $montoDeposito=0;
-                $montoRetiro=$balance->monto;
+        foreach ($balances as $balance) {
+            if ($balance->tipo_movimiento === "Deposito") {
+                $saldo += $balance->monto;
+                $montoDeposito = $balance->monto;
+                $montoRetiro = 0;
+            } else {
+                $saldo -= $balance->monto;
+                $montoDeposito = 0;
+                $montoRetiro = $balance->monto;
             }
             Balance::create([
-               'fecha'=>$balance->created_at,
-               'movimiento'=>$balance->tipo_movimiento,
-               'monto'=>$montoDeposito,
-               'saldo'=>$saldo,
-               'user'=>$balance->cajero,
-               'retiro'=>$montoRetiro
+                'fecha' => $balance->created_at,
+                'movimiento' => $balance->tipo_movimiento,
+                'monto' => $montoDeposito,
+                'saldo' => $saldo,
+                'user' => $balance->cajero,
+                'retiro' => $montoRetiro
             ]);
         }
 
-        $this->noCuenta=$cuenta->no_cuenta;
+        $this->noCuenta = $cuenta->no_cuenta;
         $this->dispatch('setAccountFilters', $idCuenta);
         $this->dispatch('show-transactions-modal');
     }

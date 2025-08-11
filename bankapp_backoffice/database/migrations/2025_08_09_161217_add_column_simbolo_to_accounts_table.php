@@ -11,8 +11,8 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::table('transaccions', function (Blueprint $table) {
-             $table->date('fecha')->nullable();
+        Schema::table('accounts', function (Blueprint $table) {
+            $table->string('simbolo')->nullable();
         });
     }
 
@@ -21,7 +21,7 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::table('transaccions', function (Blueprint $table) {
+        Schema::table('accounts', function (Blueprint $table) {
             //
         });
     }

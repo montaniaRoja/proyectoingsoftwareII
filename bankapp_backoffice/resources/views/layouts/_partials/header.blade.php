@@ -1,10 +1,15 @@
      <header class="navbar sticky-top flex-md-nowrap">
-            <div class="col-md-3 col-lg-3 me-0 px-3 fs-6">
-                <a class="navbar-brand" href="{{route('index')}}">
-                    <i class="bi-box"></i>
-                    DashBoard
-                </a>
-            </div>
+           <div class="col-md-3 col-lg-3 me-0 px-3 fs-6">
+    <a class="navbar-brand" href="{{ route('index') }}">
+        <i class="bi-box"></i>
+        DashBoard
+    </a>
+    <a href="https://docs.google.com/document/d/1ZmadxKZXz0Wv5aH6sx6OhdDqplMBJrB3RsqsALouvv4/edit?usp=sharing" target="_blank">
+        <i class="bi bi-file-earmark-text"></i>
+        Manual de Usuario
+    </a>
+</div>
+
 
             <button class="navbar-toggler position-absolute d-md-none collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#sidebarMenu" aria-controls="sidebarMenu" aria-expanded="false" aria-label="Toggle navigation">
                 <span class="navbar-toggler-icon"></span>
